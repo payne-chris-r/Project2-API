@@ -5,3 +5,13 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+#User.create!(email: )
+
+%w(hello world and).each do |name|
+  email = "#{name}@#{name}.com"
+
+  next if User.exists? email: email
+  User.create!(email: email, password: 'abc123',
+               password_confirmation: 'abc123')
+end
