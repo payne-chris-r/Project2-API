@@ -1,9 +1,6 @@
 class UsersController < ApplicationController
   skip_before_action :authenticate, only: [:login, :create]
 
-  #before_action :set_user, only: [:show, :update, :destroy]
-
-
   #POST /login
   def login
     credentials = user_credentials
@@ -67,11 +64,4 @@ class UsersController < ApplicationController
                                         :password,
                                         :password_confirmation)
   end
-  # def set_user
-  #   @user = User.find(params[:id])
-  # end
-
-  # def user_params
-  #   params.require(:user).permit(:email, :password, :password_confirmation)
-  # end
 end
