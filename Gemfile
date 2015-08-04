@@ -7,7 +7,7 @@ gem 'rails-api'
 
 gem 'spring', :group => :development
 
-
+gem 'byebug'
 gem 'pg'
 
 gem 'active_model_serializers'

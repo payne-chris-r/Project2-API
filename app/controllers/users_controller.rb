@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   #POST /login
   def login
     credentials = user_credentials
-    token = User.login(credentials[:email], credentials[:password])
+    token = User.login(credentials[:username], credentials[:password])
     if token
       render json: { token: token }
     else
@@ -31,7 +31,7 @@ class UsersController < ApplicationController
     @user = User.new(user_credentials)
 
     if @user.save
-      render json: @user, status: :created, location: @user
+      render json: @user, status: :created
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -59,8 +59,9 @@ class UsersController < ApplicationController
 
   private
   def user_credentials
-    params.require(:credentials).permit(:email,
-                                        :password,
-                                        :password_confirmation)
+    params.require(:credentials).permit(:username,
+                                        :password #,
+                                        #:password_confirmation
+                                        )
   end
 end

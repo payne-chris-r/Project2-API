@@ -6,6 +6,7 @@ class CreateRuns < ActiveRecord::Migration
       t.decimal :speed
       t.integer :rating
       t.text :comment
+      t.date :date
 
       t.timestamps null: false
     end
