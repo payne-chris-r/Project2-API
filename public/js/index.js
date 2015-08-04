@@ -21,24 +21,47 @@ $('#login').on('click', function(e){
   });
 });
 
+
+// $.ajax({
+//     url: api + '/profiles/' + $("#profile-id").val(),
+//     contentType: 'application/json',
+//     processData: false,
+//     method: 'PATCH',
+//     headers: {
+//       Authorization: 'Token token=' + $('#token').val()
+//     },
+//     data: JSON.stringify({
+//       profile: {
+//         first_name: ($("#first-name").val()),
+//         last_name: $("#last-name").val(),
+//         middle_name: $("#middle-name").val(),
+//         city: $("#city").val(),
+//         state: $("#state").val(),
+//         picture: $("#picture").val(),
+//         description: $("#profile-description").val(),
+//         dob: $("#dob").val()
+//       }
+//     })
+
+
 // create Run with Ajax
 $("#run-create").on('click', function(){
-  var pace = (($("#run-distance").val()) / ($("#run-time").val() * 60));
-
+  var pace = (($("#run-time").val()) / ($("#run-distance").val()));
   $.ajax({
-    url: '/runs',
+    url: api + '/runs',
     method: 'POST',
+    headers: {
+      Authorization: 'Token token=' + $('#token').val()
+    },
     data: {
       run: {
         distance: Number($("#run-distance").val()),
         time: $("#run-time").val(),
-        //need to calculate speed from date/time
         speed: pace,
-        //miles/second
-        description: $("#run-description").val(),
-        run_date: $("#run-year").val(),
-        run_rating: $("#run-rating").val()
-        //user_id: $("#user-id").val()
+        comment: $("#run-comment").val(),
+        date: $("#run-date").val(),
+        rating: $("#run-rating").val(),
+        user_id: $("#user-id").val()
       }
     }
   }).done(function(data){
@@ -50,6 +73,7 @@ $("#run-create").on('click', function(){
 
 //update Run with Ajax
 $("#run-update").on('click', function(){
+  var pace = (($("#run-time").val()) / ($("#run-distance").val()));
   $.ajax({
     url: '/runs/' + $("#run-id"),
     method: 'PATCH',
@@ -57,9 +81,10 @@ $("#run-update").on('click', function(){
       run: {
         distance: Number($("#run-distance").val()),
         time: $("#run-time").val(),
-        description: $("#run-description").val(),
-        run_date: $("#run-year").val(),
-        run_rating: $("#run-rating").val()
+        speed: pace,
+        comment: $("#run-comment").val(),
+        date: $("#run-date").val(),
+        rating: $("#run-rating").val()
       }
     }
   }).done(function(data){
