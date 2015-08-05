@@ -21,29 +21,6 @@ $('#login').on('click', function(e){
   });
 });
 
-
-// $.ajax({
-//     url: api + '/profiles/' + $("#profile-id").val(),
-//     contentType: 'application/json',
-//     processData: false,
-//     method: 'PATCH',
-//     headers: {
-//       Authorization: 'Token token=' + $('#token').val()
-//     },
-//     data: JSON.stringify({
-//       profile: {
-//         first_name: ($("#first-name").val()),
-//         last_name: $("#last-name").val(),
-//         middle_name: $("#middle-name").val(),
-//         city: $("#city").val(),
-//         state: $("#state").val(),
-//         picture: $("#picture").val(),
-//         description: $("#profile-description").val(),
-//         dob: $("#dob").val()
-//       }
-//     })
-
-
 // create Run with Ajax
 $("#run-create").on('click', function(){
   var pace = (($("#run-time").val()) / ($("#run-distance").val()));
@@ -74,10 +51,17 @@ $("#run-create").on('click', function(){
 //update Run with Ajax
 $("#run-update").on('click', function(){
   var pace = (($("#run-time").val()) / ($("#run-distance").val()));
+  console.log("Pace is " + pace);
+  console.log("URL is " + api + '/runs/' + $("#run-id").val());
   $.ajax({
-    url: '/runs/' + $("#run-id"),
+    url: api + '/runs/' + $("#run-id").val(),
+    contentType: 'application/json',
+    processData: false,
     method: 'PATCH',
-    data: {
+    headers: {
+      Authorization: 'Token token=' + $('#token').val()
+    },
+    data: JSON.stringify({
       run: {
         distance: Number($("#run-distance").val()),
         time: $("#run-time").val(),
@@ -86,9 +70,9 @@ $("#run-update").on('click', function(){
         date: $("#run-date").val(),
         rating: $("#run-rating").val()
       }
-    }
+    })
   }).done(function(data){
-    console.log("I'm a robot that created a run.");
+    console.log("I'm a robot that updated a run.");
   }).fail(function(data){
     console.log("YOU DONE FUCKED UP NOW!");
   });
@@ -223,7 +207,6 @@ $("#profile-update").on('click', function(){
   });
 });
 
-
 //destroy Movies with Ajax
 $("#profile-destroy").on('click', function(){
   $.ajax({
@@ -236,39 +219,50 @@ $("#profile-destroy").on('click', function(){
   });
 });
 
-// create goal with Ajax
 $("#goal-create").on('click', function(){
+  var pace = (($("#goal-time").val()) / ($("#goal-distance").val()));
   $.ajax({
-    url: '/goals',
+    url: api + '/goals',
     method: 'POST',
+    headers: {
+      Authorization: 'Token token=' + $('#token').val()
+    },
     data: {
-      profile: {
-        distance: ($("#first-name-id").val()),
-        speed: $("#last-name-id").val(),
-        time: $("#middle-name-id").val()
+      goal: {
+        distance: Number($("#goal-distance").val()),
+        time: $("#goal-time").val(),
+        speed: pace
       }
     }
   }).done(function(data){
-    console.log("I'm a robot that created a profile.");
+    console.log("I'm a robot that created a goal.");
   }).fail(function(data){
     console.log("YOU DONE FUCKED UP NOW!");
   });
 });
 
-// update goal with Ajax
+//update goal with Ajax
 $("#goal-update").on('click', function(){
+  var pace = (($("#goal-time").val()) / ($("#goal-distance").val()));
+  console.log("Pace is " + pace);
+  console.log("URL is " + api + '/goals/' + $("#goal-id").val());
   $.ajax({
-    url: '/goals',
+    url: api + '/goals/' + $("#goal-id").val(),
+    contentType: 'application/json',
+    processData: false,
     method: 'PATCH',
-    data: {
-      profile: {
-        distance: ($("#first-name-id").val()),
-        speed: $("#last-name-id").val(),
-        time: $("#middle-name-id").val()
+    headers: {
+      Authorization: 'Token token=' + $('#token').val()
+    },
+    data: JSON.stringify({
+      goal: {
+        distance: Number($("#goal-distance").val()),
+        time: $("#goal-time").val(),
+        speed: pace
       }
-    }
+    })
   }).done(function(data){
-    console.log("I'm a robot that created a profile.");
+    console.log("I'm a robot that updated a goal.");
   }).fail(function(data){
     console.log("YOU DONE FUCKED UP NOW!");
   });
@@ -285,6 +279,9 @@ $("#goal-destroy").on('click', function(){
     console.log("YOU DONE FUCKED UP NOW!");
   });
 });
+
+
+
 
 
 // //jQuery.ajax

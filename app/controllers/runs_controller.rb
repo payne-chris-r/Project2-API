@@ -16,7 +16,7 @@ class RunsController < ApplicationController
   # POST /users.json
   def create
     @run = Run.new(run_params)
-    byebug
+
     if @run.save
       render json: @run, status: :created
     else
