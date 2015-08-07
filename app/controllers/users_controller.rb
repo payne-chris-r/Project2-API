@@ -5,8 +5,9 @@ class UsersController < ApplicationController
   def login
     credentials = user_credentials
     token = User.login(credentials[:username], credentials[:password])
+    user = User.find_by(token: token)
     if token
-      render json: { token: token }
+      render json: user
     else
       head :unauthorized
     end
@@ -22,7 +23,8 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    #render json: @user
+    @user = current_user
+    render json: @user
   end
 
   # POST /users

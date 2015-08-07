@@ -1,5 +1,5 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :username, :total_run_time, :total_run_distance, :average_pace
+  attributes :id, :username, :total_run_time, :total_run_distance, :average_pace, :token
 
   def total_run_time
     if object.runs.length != 0
