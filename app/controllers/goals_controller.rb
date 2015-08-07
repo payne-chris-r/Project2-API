@@ -16,7 +16,7 @@ class GoalsController < ApplicationController
   def create
     @goal = Goal.new(goal_params)
     current_user.goals << @goal
-    byebug
+
     if @goal.save
       render json: @goal, status: :created
     else

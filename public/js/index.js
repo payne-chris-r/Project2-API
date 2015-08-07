@@ -1,6 +1,68 @@
 
 var api = "http://localhost:3000";
 
+// var somePartial = Handlebars.compile($("#run-partial").html());
+//  Handlebars.registerPartial('runPartial', somePartial);
+
+// var runsIndexTFunc = Handlebars.compile($("#run-index").html());
+
+//YOYOYOY I CHANGED THIS TO SINGLE QUOTES MAKE SURE IT WORKS!!
+var runTemplate = function(run) {
+  return "<tr><td>" + run.id + "</td><td>" + run.distance + "</td><td>" + run.time + "</td><td>" + run.speed + "</td><td>" + run.comment + "</td></tr>";
+};
+
+var runHeader = "<table id='testtable' class='table table-striped'><thead> <tr><th>#</th> <th>Distance</th> <th>Time</th> <th>Pace</th> <th>Comment</th></tr></thead>";
+
+$('#show').on('click', function(e){
+  console.log("You clicked show.");
+  $.ajax(api + '/runs',
+  {
+    // dataType: 'json',
+    method: 'GET',
+    headers: {
+      Authorization: 'Token token=' + $('#token').val()
+    }
+  }).done(function(data, textStatus, jqXHR){
+    //done
+    console.log("Success!");
+    console.log(JSON.stringify(data));
+    $('#result').val(JSON.stringify(data));
+    $("#testtable").append( "<p>Test</p>" );
+
+    var newHTML = runHeader;
+    console.log(data.runs);
+    data.runs.forEach(function(run){
+      newHTML += runTemplate(run);
+    });
+    newHTML += "</table>";
+    $("#runsSection").html(newHTML);
+
+  }).fail(function(jqXHR, textStatus, errorThrown){
+    //fail
+    $('#result').val(errorThrown);
+  });
+});
+
+$('#list').on('click', function(e){
+  console.log("You clicked list.");
+  $.ajax(api + '/users',
+  {
+    // dataType: 'json',
+    method: 'GET',
+    headers: {
+      Authorization: 'Token token=' + $('#token').val()
+    }
+  }).done(function(data, textStatus, jqXHR){
+    //done
+    console.log("Success!");
+    console.log(JSON.stringify(data));
+
+  }).fail(function(jqXHR, textStatus, errorThrown){
+    //fail
+    $('#result').val(errorThrown);
+  });
+});
+
 $('#login').on('click', function(e){
   $.ajax( api + '/login',
   {
@@ -16,6 +78,7 @@ $('#login').on('click', function(e){
     method: 'POST'
   }).done(function(data, textStatus, jqXHR){
     $('#token').val(data.token);
+    console.log(JSON.stringify(data));
   }).fail(function(jqXHR, textStatus, errorThrown){
     $('#result').val(errorThrown);
   });
@@ -78,7 +141,7 @@ $("#run-update").on('click', function(){
   });
 });
 
-//destroy Movies with Ajax
+//destroy runs with Ajax
 $("#run-destroy").on('click', function(){
   $.ajax({
     url: '/runs/' + $("#run-id").val(),
@@ -90,14 +153,15 @@ $("#run-destroy").on('click', function(){
   });
 });
 
+
 //display run image with ajax
-  // $("#movie-display").on('click', function(){
+  // $("#run-display").on('click', function(){
   //   $.ajax({
-  //     url: '/movies/' + $("#movie-id").val(),
+  //     url: '/runs/' + $("#run-id").val(),
   //     method: 'GET'
   //   }).done(function(data){
   //     console.log(data);
-  //     $("#movie-image").html("<img src=" + data.poster_src + ">");
+  //     $("#run-image").html("<img src=" + data.poster_src + ">");
   //   }).fail(function(data){
   //     console.log("YOU DONE FUCKED UP NOW!");
   //   });
@@ -126,20 +190,23 @@ $("#user-update").on('click', function(){
   $.ajax({
     url: '/users/' + $("#user-id").val(),
     method: 'PATCH',
+    headers: {
+      Authorization: 'Token token=' + $('#token').val()
+    },
     data: {
       credentials: {
         username: $("#username").val(),
-        password: $("#password").val()
+        password: $("#user-password").val()
       }
     }
   }).done(function(data){
-    console.log("I'm a robot that created a user.");
+    console.log("I'm a robot that updated a user.");
   }).fail(function(data){
     console.log("YOU DONE FUCKED UP NOW!");
   });
 });
 
-//destroy Movies with Ajax
+//destroy runs with Ajax
 $("#user-destroy").on('click', function(){
   $.ajax({
     url: '/users/' + $("#user-id").val(),
@@ -207,7 +274,7 @@ $("#profile-update").on('click', function(){
   });
 });
 
-//destroy Movies with Ajax
+//destroy runs with Ajax
 $("#profile-destroy").on('click', function(){
   $.ajax({
     url: '/profiles/' + $("#profile-id").val(),
@@ -268,7 +335,7 @@ $("#goal-update").on('click', function(){
   });
 });
 
-//destroy Movies with Ajax
+//destroy runs with Ajax
 $("#goal-destroy").on('click', function(){
   $.ajax({
     url: '/goals/' + $("#goal-id").val(),

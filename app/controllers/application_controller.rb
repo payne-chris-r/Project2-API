@@ -7,6 +7,9 @@ class ApplicationController < ActionController::API
 
   private
 
+  #add application for rack cors
+
+
   def authenticate
     authenticate_or_request_with_http_token do |token, options|
       @current_user = User.find_by(token: token)

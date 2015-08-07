@@ -40,13 +40,13 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
-    # @user = User.find(params[:id])
+    @user = User.find(params[:id])
 
-    # if @user.update(user_params)
-    #   head :no_content
-    # else
-    #   render json: @user.errors, status: :unprocessable_entity
-    # end
+    if @user.update(user_credentials)
+      head :no_content
+    else
+      render json: @user.errors, status: :unprocessable_entity
+    end
   end
 
   # DELETE /users/1
@@ -60,7 +60,7 @@ class UsersController < ApplicationController
   private
   def user_credentials
     params.require(:credentials).permit(:username,
-                                        :password #,
+                                        :password
                                         #:password_confirmation
                                         )
   end

@@ -1,8 +1,8 @@
 class RunsController < ApplicationController
-  skip_before_action :authenticate, only: [:login, :create]
+  # skip_before_action :authenticate, only: [:login, :create]
 
   def index
-    @runs = Run.all
+    @runs = current_user.runs
     render json: @runs
   end
 
@@ -16,6 +16,7 @@ class RunsController < ApplicationController
   # POST /users.json
   def create
     @run = Run.new(run_params)
+    current_user.runs << @run
 
     if @run.save
       render json: @run, status: :created
