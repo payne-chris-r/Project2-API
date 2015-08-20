@@ -20,7 +20,9 @@ class UserSerializer < ActiveModel::Serializer
 
   def average_distance
     if object.runs.length !=0
-      total_run_distance/object.runs.length
+      avg = 0
+      avg = total_run_distance/object.runs.length
+      avg.round(2)
     else
       -1
     end
@@ -28,14 +30,6 @@ class UserSerializer < ActiveModel::Serializer
 
   def average_pace
     total_run_time/total_run_distance
-  end
-
-  def average_distance
-    if object.runs.length !=0
-      total_run_distance/object.runs.length
-    else
-      -1
-    end
   end
 
   def longest_run
